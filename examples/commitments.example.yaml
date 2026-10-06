@@ -1,0 +1,40 @@
+# Keep the real version of this file inside the customer's security boundary.
+# It is consumed only by `commit-aware compile` and is never read by LiteLLM.
+commitments:
+  # An Anthropic model bought through Bedrock can count toward one or more AWS
+  # scopes, but not toward a direct Anthropic agreement unless the contract says so.
+  - scope_id: aws-enterprise
+    commitment_type: minimum
+    amount_usd: 120000
+    used_usd: 82000
+    forecast_remaining_usd: 21000
+    ends_at: "2026-10-20T23:59:59Z"
+    prepaid: true
+    eligible_models:
+      - bedrock-sonnet
+    max_traffic_share: 0.25
+    policy_ttl_minutes: 60
+
+  - scope_id: anthropic-direct-ceiling
+    commitment_type: maximum
+    amount_usd: 50000
+    used_usd: 44000
+    forecast_remaining_usd: 9000
+    ends_at: "2026-10-31T23:59:59Z"
+    eligible_models:
+      - anthropic-direct-sonnet
+    hard_limit: false
+    max_traffic_share: 1.0
+    policy_ttl_minutes: 60
+
+  - scope_id: openai-direct
+    commitment_type: minimum
+    amount_usd: 40000
+    used_usd: 35000
+    forecast_remaining_usd: 7000
+    ends_at: "2026-12-31T23:59:59Z"
+    prepaid: true
+    eligible_models:
+      - openai-gpt
+    max_traffic_share: 0.25
+    policy_ttl_minutes: 60

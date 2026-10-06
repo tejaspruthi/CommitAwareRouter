@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "commit-aware-router"
+version = "0.2.0"
+description = "Commitment-aware routing policy for LLM gateways"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "cryptography>=44,<47",
+  "httpx>=0.28,<1",
+  "PyYAML>=6,<7"
+]
+
+[project.optional-dependencies]
+gateway = ["litellm>=1.80,<2"]
+
+[project.scripts]
+commit-aware = "commit_aware_router.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["commit_aware_router*"]
+
