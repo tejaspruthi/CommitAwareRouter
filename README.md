@@ -1,20 +1,20 @@
 # Commit-Aware Router
 
-**A routing layer for organizations that want AI traffic decisions to reflect the commitments they have already made.**
+A routing layer for organizations that want AI traffic decisions to reflect the commitments they've already made.
 
-Most AI routers choose between eligible models using price, quality, latency, reliability, and availability. Commit-Aware Router adds another input: the organization's commercial commitments across model providers and cloud platforms.
+Most AI routers choose between eligible models based on price, quality, latency, reliability, and availability. Commit-Aware Router also considers the organization's commercial commitments across model providers and cloud platforms.
 
-It is an early open-source proof of concept for enterprises that manage multiple AI and cloud agreements and want routing to support the financial goal of meeting those commitments—without transmitting sensitive contract amounts or forecasts to the routing layer.
+It's an early open-source proof of concept for enterprises managing multiple AI and cloud agreements. The goal is to help their routing decisions support those commitments without sending sensitive contract amounts or forecasts to the routing layer.
 
 ## Why it exists
 
-An organization can make a sensible decision for an individual request and still make an expensive decision for the business.
+A sensible choice for one request can still be an expensive choice for the business.
 
-For example, a team may route to the lowest list-price model while the company is forecast to leave prepaid capacity or a minimum-spend commitment unused elsewhere. Conversely, a company may want to reduce traffic through a channel approaching a commercial ceiling or an unfavorable threshold.
+For example, a team might choose the model with the lowest list price while the company's forecast shows prepaid capacity or a minimum-spend commitment going unused elsewhere. A company might also want to reduce traffic through a channel that's approaching a commercial ceiling or an unfavorable threshold.
 
-Those are Finance and FinOps questions, but they are shaped by thousands or millions of product-level routing decisions. This project connects the two.
+Finance and FinOps teams care about those outcomes. Thousands or millions of product-level routing decisions shape them. This project connects the two.
 
-Commit-Aware Router is designed for teams spanning:
+Commit-Aware Router is designed for people across these teams:
 
 - CFO, Finance, and Strategic Finance;
 - Cloud Finance, FinOps, and Procurement;
@@ -23,11 +23,11 @@ Commit-Aware Router is designed for teams spanning:
 
 ## What it does
 
-The project turns finance-owned commitment guidance into a bounded routing signal. The signal can influence the ordering of otherwise eligible routes, while application requirements remain non-negotiable.
+The project turns guidance from Finance into a routing signal with limits on its influence. That signal can change how the router ranks eligible routes. Application requirements still come first.
 
-Quality, capability, latency, reliability, residency, and policy constraints should always be enforced before commercial preference is considered.
+The router should always enforce quality, capability, latency, reliability, residency, and policy constraints before considering commercial preferences.
 
-At a high level:
+Here's how the pieces fit together:
 
 ```text
 customer finance data + spend forecast
@@ -37,23 +37,23 @@ customer finance data + spend forecast
      model routing decision and audit trail
 ```
 
-The result is not “always use the committed vendor.” It is a controlled way to make routing aware of the economic context around each eligible request.
+Having a commitment doesn't mean “always use that vendor.” It gives the router financial context to consider for each eligible request, within defined limits.
 
 ## Privacy is a core requirement
 
-Commit amounts, consumption, forecasts, and negotiated terms are sensitive commercial information. A customer should not need to send them to a router to receive commit-aware behavior.
+Commit amounts, consumption, forecasts, and negotiated terms are sensitive commercial information. Customers shouldn't have to send them to a router to get commit-aware behavior.
 
-The intended architecture keeps detailed commercial inputs inside the customer's environment. The router consumes a short-lived, authenticated policy signal rather than raw contract values.
+The intended architecture keeps detailed commercial inputs inside the customer's environment. The router receives a short-lived, authenticated policy signal instead of raw contract values.
 
-That policy can express a bounded preference, applicable routes, and safety limits without exposing the underlying amount or forecast. Customers that require a stronger boundary can run the policy and routing components in their own environment.
+That policy can express a preference with limits, identify applicable routes, and set safety limits without exposing the underlying amount or forecast. Customers who need a stronger privacy boundary can run the policy and routing components in their own environment.
 
-Privacy is not treated as a binary claim: a numerical signal can still reveal something over time. The project is designed to support privacy-preserving controls such as coarse preference bands, short policy lifetimes, limited logging, and customer-controlled deployment.
+A numerical signal can still reveal something over time. The project is designed to support privacy controls such as coarse preference bands, short policy lifetimes, limited logging, and deployment under the customer's control.
 
 ## Multi-channel commitments
 
-Model publisher, billing channel, and commercial commitment are not always the same thing.
+The model publisher, billing channel, and commercial commitment aren't always the same thing.
 
-A model may be purchased directly from its publisher or through a cloud platform. A commitment may apply to one channel, several channels, or an enterprise-wide pool. The router models these separately so eligibility is explicit rather than inferred from a model name.
+You might buy access to a model directly from its publisher or through a cloud platform. A commitment might cover one channel, several channels, or an enterprise-wide pool. The router keeps these separate so the customer can define eligibility explicitly. It doesn't infer coverage from a model name.
 
 ```text
 Route identity
@@ -62,11 +62,11 @@ Route identity
 └── customer-defined commitment scopes
 ```
 
-For example, a model accessed through a cloud marketplace might count toward a cloud commitment, a provider-wide commitment, both, or neither—depending on the customer's actual agreement. The customer defines those rules.
+For example, a model accessed through a cloud marketplace might count toward a cloud commitment, a provider-wide commitment, both, or neither. It depends on the customer's actual agreement. The customer defines those rules.
 
 ## Current state
 
-This is a proof of concept built to invite feedback from the people closest to the problem.
+This is a proof of concept. We'd like feedback from the people who deal with this problem.
 
 The repository currently includes:
 
@@ -77,7 +77,7 @@ The repository currently includes:
 - shadow mode for evaluating recommendations before routing production traffic;
 - basic usage adapters and a transparent forecasting baseline.
 
-It is not a billing system, legal interpretation engine, or replacement for a finance-owned forecast. Commitment eligibility and commercial terms must be validated by the customer.
+It isn't a billing system, a legal interpretation engine, or a replacement for a forecast owned by Finance. The customer must validate commitment eligibility and commercial terms.
 
 ## Getting started
 
@@ -87,9 +87,9 @@ python3 -m venv .venv
 LITELLM_LOCAL_MODEL_COST_MAP=True .venv/bin/python -m unittest discover -s tests -v
 ```
 
-The [LiteLLM example](examples/litellm_plugin.py) shows the gateway integration shape. The [sample configuration](examples/commitments.example.yaml) is intentionally fictional and should be treated as a local-only example.
+The [LiteLLM example](examples/litellm_plugin.py) shows how the gateway integration fits together. The [sample configuration](examples/commitments.example.yaml) is intentionally fictional. Treat it as a local-only example.
 
-## What we would value feedback on
+## We'd like your feedback
 
 - How do you manage AI, cloud, and marketplace commitments today?
 - Who owns the organization-level forecast of eligible AI spend?
@@ -99,4 +99,4 @@ The [LiteLLM example](examples/litellm_plugin.py) shows the gateway integration 
 
 ## Status
 
-Experimental. Do not use it to make contractual or accounting decisions without independent validation, appropriate controls, and review by the teams responsible for those commitments.
+It's experimental. Don't use it to make contractual or accounting decisions without independent validation, appropriate controls, and review by the teams responsible for those commitments.
